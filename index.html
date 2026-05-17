@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CelesteCon 2026 — AEROSS</title>
+  <meta name="description"
+    content="CelesteCon 2026 – the premier aerospace competition by AEROSS. Explore events, timeline, sponsors and more." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Bebas+Neue&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+
+
+  <header class="site-header" id="siteHeader">
+    <div class="header-inner">
+      <!-- ye sab hatake, add actual logo -->
+      <a href="#hero" class="logo-link" id="logoLink" aria-label="AEROSS home">
+        <svg class="logo-svg" viewBox="0 0 140 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <!-- Globe ring -->
+          <circle cx="18" cy="20" r="15" stroke="white" stroke-width="1.4" />
+          <!-- Axial lines -->
+          <ellipse cx="18" cy="20" rx="7" ry="15" stroke="white" stroke-width="1" />
+          <line x1="3" y1="20" x2="33" y2="20" stroke="white" stroke-width="1" />
+          <!-- Satellite/rocket shape -->
+          <path d="M22 8 C26 10 28 14 24 18 L18 24 L14 20 Z" fill="white" opacity="0.9" />
+          <path d="M14 20 L12 26 L18 24 Z" fill="white" opacity="0.65" />
+          <!-- Text AEROSS -->
+          <text x="42" y="27" font-family="Inter, sans-serif" font-weight="700" font-size="16" fill="white"
+            letter-spacing="4">AEROSS</text>
+        </svg>
+      </a>
+
+
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+
+      <!-- navbar -->
+      <nav class="main-nav" id="mainNav" aria-label="Primary navigation">
+        <ul class="nav-list">
+          <li><a href="#hero" class="nav-link active" id="nl-home">Home</a></li>
+          <li><a href="#about" class="nav-link" id="nl-about">About</a></li>
+          <li><a href="#events" class="nav-link" id="nl-events"> Event </a> </li>
+          <li><a href="#timeline" class="nav-link" id="nl-timeline">Timeline</a></li>
+          <li><a href="#sponsors" class="nav-link" id="nl-sponsors">Sponsors</a></li>
+          <li><a href="results.html" class="nav-link" id="nl-results">Result '25</a></li>
+          <li><a href="#contact" class="nav-link" id="nl-contact">Contact</a></li>
+          <li><a href="https://aeross.org" class="nav-link gold-link" id="nl-aeross">AEROSS</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+
+  <div class="site-loader" id="siteLoader" aria-hidden="true">
+    <div class="loader-ring"></div>
+  </div>
+
+
+  <section class="hero-section" id="hero" aria-label="Hero">
+    <video class="hero-video" id="heroVideo" autoplay muted playsinline preload="auto">
+      <source src="video.mp4" type="video/mp4"/>
+    </video>
+    <div class="hero-fade"></div>
+  </section>
+
+
+  <main class="site-main">
+
+    <!-- about -->
+    <section class="section about-section" id="about">
+      <div class="container">
+          <h2 class="section-heading reveal light">About</h2>
+          <h2 class="section-heading reveal shadow">About</h2>
+        <div class="about-card reveal">
+          <p>
+            <strong>CelesteCon 2026</strong> is AEROSS's flagship national inter-school aerospace competition — a
+            convergence of science, innovation, and imagination hosted at <strong>DPS RK Puram, New Delhi</strong>.
+          </p>
+          <p>
+            Now in its - edition, CelesteCon brings together the brightest student minds from across India to compete,
+            collaborate, and push the boundaries of space science, rocketry, and engineering. Nine meticulously designed
+            events challenge participants across technical, creative, and analytical dimensions.
+          </p>
+          <p>
+            Whether you're a seasoned aerospace enthusiast or a curious first-timer, CelesteCon is your launchpad.
+          </p>
+        </div>
+        <div class="gold-line reveal"></div>
+      </div>
+    </section>
+
+    <!-- events -->
+    <section class="section events-section" id="events">
+      <div class="container">
+        <div style="display: flex;">
+          <h2 class="section-heading reveal light">Events</h2>
+          <h2 class="section-heading reveal shadow">Events</h2>
+        </div>
+        <div class="events-grid reveal">
+
+          <div class="event-card" id="ec-1">
+            <div class="event-card-top">
+              <svg class="event-icon" viewBox="0 0 40 40" fill="none">
+                <rect x="6" y="10" width="28" height="22" rx="2" stroke="currentColor" stroke-width="1.5" />
+                <path d="M12 10V8M20 10V7M28 10V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                <path d="M10 18h20M10 24h14" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
+              </svg>
+              <span class="event-tag">Research</span>
+            </div>
+            <div class="event-card-body">
+              <div class="event-number">01</div>
+              <h3 class="event-name">Celesymposium 3.0</h3>
+              <p class="event-desc">A research paper presentation and open discussion forum on cutting-edge aerospace
+                topics.</p>
+            </div>
+            <div class="event-card-footer"><span class="event-arrow">Explore →</span></div>
+          </div>
+
+          <div class="event-card" id="ec-2">
+            <div class="event-card-top">
+              <svg class="event-icon" viewBox="0 0 40 40" fill="none">
+                <circle cx="20" cy="14" r="6" stroke="currentColor" stroke-width="1.5" />
+                <path d="M10 34c0-5.523 4.477-10 10-10s10 4.477 10 10" stroke="currentColor" stroke-width="1.5"
+                  stroke-linecap="round" />
+                <path d="M30 18l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+              <span class="event-tag">Strategy</span>
+            </div>
+            <div class="event-card-body">
+              <div class="event-number">02</div>
+              <h3 class="event-name">Settle-Me-This</h3>
+              <p class="event-desc">Design and pitch a sustainable off-world colony in this high-stakes strategy
+                challenge.</p>
+            </div>
+            <div class="event-card-footer"><span class="event-arrow">Explore →</span></div>
+          </div>
+
+          <div class="event-card" id="ec-3">
+            <div class="event-card-top">
+              <svg class="event-icon" viewBox="0 0 40 40" fill="none">
+                <path d="M8 32L20 8l12 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+                <path d="M12 24h16" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
+                <circle cx="20" cy="8" r="2" fill="currentColor" />
+              </svg>
+              <span class="event-tag">Design</span>
+            </div>
+            <div class="event-card-body">
+              <div class="event-number">03</div>
+              <h3 class="event-name">Dimension III</h3>
+              <p class="event-desc">A 3D modelling and rapid prototyping challenge pushing spatial design skills to the
+                limit.</p>
+            </div>
+            <div class="event-card-footer"><span class="event-arrow">Explore →</span></div>
+          </div>
+
+          <div class="event-card" id="ec-4">
+            <div class="event-card-top">
+              <svg class="event-icon" viewBox="0 0 40 40" fill="none">
+                <path d="M20 32V18M10 26l10-8 10 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+                <path d="M14 18c0-3.314 2.686-6 6-6s6 2.686 6 6" stroke="currentColor" stroke-width="1.2"
+                  stroke-linecap="round" />
+                <path d="M8 32h24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+              </svg>
+              <span class="event-tag">Engineering</span>
+            </div>
+            <div class="event-card-body">
+              <div class="event-number">04</div>
+              <h3 class="event-name">Volatus</h3>
+              <p class="event-desc">Construct and fly model aircraft in a precision aerodynamics and flight performance
+                event.</p>
+            </div>
+            <div class="event-card-footer"><span class="event-arrow">Explore →</span></div>
+          </div>
+
+          <div class="event-card" id="ec-5">
+            <div class="event-card-top">
+              <svg class="event-icon" viewBox="0 0 40 40" fill="none">
+                <circle cx="20" cy="20" r="12" stroke="currentColor" stroke-width="1.5" />
+                <path d="M16 16l8 8M24 16l-8 8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
+                <circle cx="20" cy="20" r="3" fill="currentColor" opacity="0.3" />
+                <path d="M20 8v3M20 29v3M8 20h3M29 20h3" stroke="currentColor" stroke-width="1.2"
+                  stroke-linecap="round" />
+              </svg>
+              <span class="event-tag">Knowledge</span>
+            </div>
+            <div class="event-card-body">
+              <div class="event-number">05</div>
+              <h3 class="event-name">Quizzitch</h3>
+              <p class="event-desc">The ultimate aerospace quiz — testing breadth of knowledge from orbital mechanics to
+                space history.</p>
+            </div>
+            <div class="event-card-footer"><span class="event-arrow">Explore →</span></div>
+          </div>
+
+          <div class="event-card" id="ec-6">
+            <div class="event-card-top">
+              <svg class="event-icon" viewBox="0 0 40 40" fill="none">
+                <path d="M12 28l4-8 4 4 4-12 4 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+                <circle cx="12" cy="28" r="1.5" fill="currentColor" />
+                <circle cx="28" cy="20" r="1.5" fill="currentColor" />
+                <rect x="6" y="8" width="28" height="26" rx="3" stroke="currentColor" stroke-width="1.2"
+                  opacity="0.4" />
+              </svg>
+              <span class="event-tag">Debate</span>
+            </div>
+            <div class="event-card-body">
+              <div class="event-number">06</div>
+              <h3 class="event-name">In Pursuit Of Dispute</h3>
+              <p class="event-desc">A structured parliamentary debate on pressing issues at the intersection of space
+                and policy.</p>
+            </div>
+            <div class="event-card-footer"><span class="event-arrow">Explore →</span></div>
+          </div>
+
+          <div class="event-card" id="ec-7">
+            <div class="event-card-top">
+              <svg class="event-icon" viewBox="0 0 40 40" fill="none">
+                <path d="M12 32V20l8-6 8 6v12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+                <path d="M16 32v-7h8v7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"
+                  stroke-linejoin="round" />
+                <path d="M8 20l12-9 12 9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" />
+              </svg>
+              <span class="event-tag">Business</span>
+            </div>
+            <div class="event-card-body">
+              <div class="event-number">07</div>
+              <h3 class="event-name">Business Power Pitch</h3>
+              <p class="event-desc">Pitch your aerospace startup idea to a panel of industry judges in this
+                entrepreneurship event.</p>
+            </div>
+            <div class="event-card-footer"><span class="event-arrow">Explore →</span></div>
+          </div>
+
+          <div class="event-card" id="ec-8">
+            <div class="event-card-top">
+              <svg class="event-icon" viewBox="0 0 40 40" fill="none">
+                <path d="M20 8l2.5 5 5.5.8-4 3.9.9 5.5L20 20.5l-4.9 2.7.9-5.5-4-3.9 5.5-.8z" stroke="currentColor"
+                  stroke-width="1.4" stroke-linejoin="round" />
+                <path d="M12 30h16M15 34h10" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
+              </svg>
+              <span class="event-tag">Innovation</span>
+            </div>
+            <div class="event-card-body">
+              <div class="event-number">08</div>
+              <h3 class="event-name">Cosmovate</h3>
+              <p class="event-desc">An innovation marathon — design a novel space technology solution within a time
+                limit.</p>
+            </div>
+            <div class="event-card-footer"><span class="event-arrow">Explore →</span></div>
+          </div>
+
+          <div class="event-card surprise-card" id="ec-9">
+            <div class="event-card-top">
+              <svg class="event-icon" viewBox="0 0 40 40" fill="none">
+                <circle cx="20" cy="20" r="13" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3" />
+                <path d="M20 14v8M20 25v2" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+              </svg>
+              <span class="event-tag">Wildcard</span>
+            </div>
+            <div class="event-card-body">
+              <div class="event-number">09</div>
+              <h3 class="event-name">Surprise</h3>
+              <p class="event-desc">An undisclosed wildcard event. Expect the unexpected — only the most adaptable will
+                prevail.</p>
+            </div>
+            <div class="event-card-footer"><span class="event-arrow">Explore →</span></div>
+          </div>
+
+        </div>
+
+        <div class="gold-line reveal"></div>
+      </div>
+    </section>
+
+    <!-- timeline, jus replace with a simple image of final timeline -->
+    <section class="section timeline-section" id="timeline">
+      <div class="container">
+        <h2 class="section-heading reveal light">Timeline</h2>
+        <h2 class="section-heading reveal shadow">Timeline</h2>
+        <div class="timeline-track-wrap reveal">
+          <div class="timeline-track">
+            <div class="track-line"></div>
+            <div class="timeline-items">
+
+              <div class="tl-item">
+                <div class="tl-dot"></div>
+                <div class="tl-label">
+                  <span class="tl-date">15 Mar 2026</span>
+                  <span class="tl-title">Registrations Open</span>
+                </div>
+              </div>
+
+              <div class="tl-item">
+                <div class="tl-dot"></div>
+                <div class="tl-label">
+                  <span class="tl-date">10 Apr 2026</span>
+                  <span class="tl-title">Abstract Submission</span>
+                </div>
+              </div>
+
+              <div class="tl-item">
+                <div class="tl-dot"></div>
+                <div class="tl-label">
+                  <span class="tl-date">30 Apr 2026</span>
+                  <span class="tl-title">Shortlist Announced</span>
+                </div>
+              </div>
+
+              <div class="tl-item">
+                <div class="tl-dot"></div>
+                <div class="tl-label">
+                  <span class="tl-date">15 May 2026</span>
+                  <span class="tl-title">Registrations Close</span>
+                </div>
+              </div>
+
+              <div class="tl-item tl-main">
+                <div class="tl-dot"></div>
+                <div class="tl-label">
+                  <span class="tl-date">06 Jun 2026</span>
+                  <span class="tl-title">CelesteCon Day 1</span>
+                </div>
+              </div>
+
+              <div class="tl-item tl-main">
+                <div class="tl-dot"></div>
+                <div class="tl-label">
+                  <span class="tl-date">07 Jun 2026</span>
+                  <span class="tl-title">CelesteCon Day 2</span>
+                </div>
+              </div>
+
+              <div class="tl-item">
+                <div class="tl-dot"></div>
+                <div class="tl-label">
+                  <span class="tl-date">07 Jun 2026</span>
+                  <span class="tl-title">Awards &amp; Closing</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="gold-line"></div>
+      </div>
+    </section>
+
+    <!-- sponsor, make linked landing page -->
+    <section class="section sponsors-section" id="sponsors">
+      <div class="container">
+        <h2 class="section-heading reveal light">Sponsors</h2>
+        <h2 class="section-heading reveal shadow">Sponsors</h2>
+        <div class="sponsors-layout reveal">
+
+          <div class="sponsors-carousel-wrap">
+            <div class="sponsors-carousel" id="sponsorsCarousel">
+              <div class="sponsor-circle" id="sp-1">
+                <svg viewBox="0 0 80 80" fill="none">
+                  <circle cx="40" cy="40" r="36" stroke="#b28114" stroke-width="1.5" /><text x="50%" y="54%"
+                    text-anchor="middle" dominant-baseline="middle" font-family="Inter,sans-serif" font-size="9"
+                    fill="#b28114" letter-spacing="1">SPONSOR</text>
+                </svg>
+              </div>
+              <div class="sponsor-circle" id="sp-2">
+                <svg viewBox="0 0 80 80" fill="none">
+                  <circle cx="40" cy="40" r="36" stroke="#b28114" stroke-width="1.5" /><text x="50%" y="54%"
+                    text-anchor="middle" dominant-baseline="middle" font-family="Inter,sans-serif" font-size="9"
+                    fill="#b28114" letter-spacing="1">PARTNER</text>
+                </svg>
+              </div>
+              <div class="sponsor-circle" id="sp-3">
+                <svg viewBox="0 0 80 80" fill="none">
+                  <circle cx="40" cy="40" r="36" stroke="#b28114" stroke-width="1.5" /><text x="50%" y="54%"
+                    text-anchor="middle" dominant-baseline="middle" font-family="Inter,sans-serif" font-size="9"
+                    fill="#b28114" letter-spacing="1">SPONSOR</text>
+                </svg>
+              </div>
+              <div class="sponsor-circle" id="sp-4">
+                <svg viewBox="0 0 80 80" fill="none">
+                  <circle cx="40" cy="40" r="36" stroke="#b28114" stroke-width="1.5" /><text x="50%" y="54%"
+                    text-anchor="middle" dominant-baseline="middle" font-family="Inter,sans-serif" font-size="9"
+                    fill="#b28114" letter-spacing="1">MEDIA</text>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <a href="#contact" class="sponsors-more-box" id="sponsorsMoreBox" aria-label="More sponsor information">
+            <svg class="more-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14M13 6l6 6-6 6" />
+            </svg>
+            <span>More</span>
+          </a>
+        </div>
+        <p class="sponsors-note reveal">Interested in sponsoring CelesteCon 2026? <a href="#contact"
+            class="gold-text">Get in touch →</a></p>
+        <div class="gold-line reveal"></div>
+      </div>
+    </section>
+
+    <!-- contact us -->
+    <footer class="contact-footer" id="contact">
+      <div class="container">
+        <h2 class="section-heading reveal light">Contact Us</h2>
+        <h2 class="section-heading reveal shadow">Contact Us</h2>
+        <div class="contact-grid reveal">
+          <div class="contact-info-col">
+            <h3 class="contact-sub">Platforms &amp; Social Outreach</h3>
+            <p>If you have any queries feel free to reach out to us through the following platforms:</p>
+            <ul class="contact-list">
+              <li><span class="cl-label">Email</span><a href="mailto:aeross@dpsrkp.net">aeross@dpsrkp.net</a></li>
+              <li><span class="cl-label">Website</span><a href="https://www.aeross.org" target="_blank"
+                  rel="noopener">www.aeross.org</a></li>
+              <li><span class="cl-label">Instagram</span><a href="https://instagram.com/aerospace_society"
+                  target="_blank" rel="noopener">@aerospace_society</a></li>
+              <li><span class="cl-label">Facebook</span><a href="https://facebook.com/aerospacedpsrkp" target="_blank"
+                  rel="noopener">@aerospacedpsrkp</a></li>
+              <li><span class="cl-label">Reddit</span><a href="https://reddit.com/r/aeross" target="_blank"
+                  rel="noopener">r/aeross</a></li>
+            </ul>
+          </div>
+          <div class="contact-address-col">
+            <h3 class="contact-sub">Find Us</h3>
+            <address>
+              865, Kaifi Azmi Marg,<br />
+              Police Colony, Sector 12,<br />
+              Rama Krishna Puram,<br />
+              New Delhi, Delhi 110022
+            </address>
+            <div class="map-embed">
+              <iframe title="AEROSS Location Map"
+                src="https://www.google.com/maps?q=865+Kaifi+Azmi+Marg+New+Delhi&output=embed" width="100%" height="220"
+                style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+              </iframe>
+            </div>
+          </div>
+        </div>
+
+        <!-- icons -->
+        <div class="social-icons-row reveal" role="list" aria-label="Social media links">
+          <a href="https://aeross.org" target="_blank" rel="noopener" role="listitem" aria-label="Website"
+            class="social-icon" id="si-globe">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+              <circle cx="12" cy="12" r="10" />
+              <path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20" />
+            </svg>
+          </a>
+          <a href="https://instagram.com/aerospace_society" target="_blank" rel="noopener" role="listitem"
+            aria-label="Instagram" class="social-icon" id="si-ig">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+              <rect x="2" y="2" width="20" height="20" rx="5" />
+              <circle cx="12" cy="12" r="5" />
+              <circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none" />
+            </svg>
+          </a>
+          <a href="https://facebook.com/aerospacedpsrkp" target="_blank" rel="noopener" role="listitem"
+            aria-label="Facebook" class="social-icon" id="si-fb">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+              <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" />
+            </svg>
+          </a>
+          <a href="https://youtube.com" target="_blank" rel="noopener" role="listitem" aria-label="YouTube"
+            class="social-icon" id="si-yt">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+              <path
+                d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 001.46 6.42 29 29 0 001 12a29 29 0 00.46 5.58 2.78 2.78 0 001.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.96A29 29 0 0023 12a29 29 0 00-.46-5.58z" />
+              <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="currentColor" stroke="none" />
+            </svg>
+          </a>
+          <a href="mailto:aeross@dpsrkp.net" role="listitem" aria-label="Email" class="social-icon" id="si-mail">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+              <polyline points="22,6 12,13 2,6" />
+            </svg>
+          </a>
+        </div>
+
+        <div class="footer-bottom">
+          <p class="footer-copy">© 2026 AEROSS — DPS RK Puram. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+    
+  </main>
+  
+<div id="bg-fx" aria-hidden="true">
+  <div id="blob"></div>
+  <div id="blur"></div>
+  
+</div>
+  <script src="main.js"></script>
+</body>
+
+</html>
