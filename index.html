@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Orientation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #273cff;
+      --bg-elevated: #252920;
+      --gold: #C9A84C;
+      --gold-bright: #E8D9A8;
+      --gold-dim: rgba(201, 168, 76, 0.35);
+      --sage: #8A9A7B;
+      --cream: #E8E0D0;
+      --ink: #4A4539;
+      --text: #ffffff;
+      --text-muted: rgb(255, 255, 255);
+      --countdown-fg: #EDE6D4;
+      --font-serif: 'Cormorant Garamond', Georgia, serif;
+      --font-ui: 'Lato', system-ui, sans-serif;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-ui);
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 20%, rgba(138, 154, 123, 0.08) 0%, transparent 55%),
+        radial-gradient(ellipse 55% 45% at 85% 85%, rgba(201, 168, 76, 0.06) 0%, transparent 50%),
+        var(--bg);
+      z-index: 0;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      opacity: 0.055;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    #stage-root {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+    }
+
+    .hidden { display: none !important; }
+
+    .fade-out {
+      opacity: 0 !important;
+      pointer-events: none;
+      transition: opacity 1.5s ease;
+    }
+
+    /* ========== STAGE 1 — COUNTDOWN ========== */
+    #countdown-stage {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 1.5s ease;
+    }
+
+    .countdown-wrap {
+  position: relative;
+
+  width: min(100%, 56rem);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+
+  padding-bottom: 5vh;
+}
+
+.countdown-title {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(1.2rem, 3vw, 1.55rem);
+
+  color: rgba(0, 0, 0, 0.849);
+
+  margin-bottom: clamp(1.4rem, 4vw, 2.2rem);
+
+  letter-spacing: 0.02em;
+}
+
+    .countdown-grid {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0;
+    }
+
+    .countdown-unit {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 clamp(1rem, 4.5vw, 2.5rem);
+    }
+
+    .countdown-sep {
+      width: 1px;
+      height: clamp(2.5rem, 8vw, 4.5rem);
+      background: linear-gradient(
+        180deg,
+        transparent,
+        rgba(255, 255, 255, 0.25) 25%,
+        rgba(255, 255, 255, 0.25) 75%,
+        transparent
+      );
+      align-self: center;
+      margin-bottom: clamp(1.4rem, 4vw, 2rem);
+      flex-shrink: 0;
+    }
+
+    .time-value {
+      font-family: var(--font-serif);
+      font-weight: 700;
+      font-size: clamp(3.2rem, 14vw, 7.5rem);
+      line-height: 0.92;
+      letter-spacing: -0.02em;
+      color: rgba(255, 255, 255, 0.868);
+      display: block;
+    }
+
+    .digit {
+      display: inline-block;
+      font: inherit;
+      color: inherit;
+    }
+
+    .digit.shatter {
+      animation: digit-scatter 1s cubic-bezier(0.25, 0.85, 0.35, 1) forwards;
+      animation-delay: var(--scatter-delay, 0ms);
+    }
+
+    @keyframes digit-scatter {
+      0%   { opacity: 1; transform: translate(0, 0) rotate(0deg); }
+      100% {
+        opacity: 0;
+        transform: translate(var(--tx), var(--ty)) rotate(var(--rot));
+      }
+    }
+
+    .unit-label {
+      font-family: var(--font-ui);
+      font-size: clamp(0.55rem, 1.8vw, 0.625rem);
+      font-weight: 300;
+      letter-spacing: 0.32em;
+      color: var(--text-muted);
+      margin-top: clamp(0.85rem, 2.5vw, 1.15rem);
+      text-transform: uppercase;
+    }
+
+    .skip-demo-btn {
+      position: fixed;
+      bottom: max(1.25rem, env(safe-area-inset-bottom));
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      padding: 0.55rem 1rem;
+      font-family: var(--font-ui);
+      font-size: 0.6rem;
+      font-weight: 300;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(232, 224, 208, 0.35);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .skip-demo-btn:hover {
+      color: var(--gold);
+    }
+
+    /* ========== STAGE 2 — PAPER PLANE ========== */
+    #plane-stage {
+      position: fixed;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    #plane-stage.ready { pointer-events: auto; }
+
+    .plane-container {
+      position: absolute;
+      width: 96px;
+      height: 43px;
+      left: 0;
+      top: 0;
+      transform: translate(-50%, -50%);
+      will-change: left, top, transform;
+      cursor: default;
+      filter: drop-shadow(1px 2px 3px rgba(0, 0, 0, 0.25));
+    }
+
+    .plane-container svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .plane-container.flying {
+      transition: none;
+    }
+
+    .plane-container.settled {
+      left: 50% !important;
+      top: 50% !important;
+      animation: plane-pulse 2.6s ease-in-out infinite !important;
+    }
+
+    .plane-container.settled.wobble-in {
+      animation: plane-wobble-in 0.6s ease-out, plane-pulse 2.6s ease-in-out 0.6s infinite !important;
+    }
+
+    @keyframes plane-wobble-in {
+      0%   { transform: translate(-50%, -50%) rotate(-5deg); }
+      33%  { transform: translate(-50%, -50%) rotate(4deg); }
+      66%  { transform: translate(-50%, -50%) rotate(-3deg); }
+      100% { transform: translate(-50%, -50%) rotate(0deg); }
+    }
+
+    @keyframes plane-pulse {
+  0%, 100% {
+    transform: translate(-50%, -50%) translateY(0px) scale(1);
+  }
+
+  50% {
+    transform: translate(-50%, -50%) translateY(-8px) scale(1.03);
+  }
+}
+
+    .plane-inner { width: 100%; height: 100%; }
+/* ========== ENVELOPE ========== */
+
+.envelope-container {
+  width: 118px;
+  height: 86px;
+}
+
+.envelope {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 12px 20px rgba(0,0,0,0.28));
+}
+
+/* Main body */
+
+.envelope-back {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      145deg,
+      #ffffff 0%,
+      #ffffff 100%
+    );
+
+  border-radius: 14px;
+  overflow: hidden;
+
+  border: 2px solid rgba(44, 26, 14, 0.55);
+
+  box-shadow:
+    inset 0 2px 8px rgba(255,255,255,0.4),
+    inset 0 -4px 10px rgba(0,0,0,0.08);
+}
+
+/* cute inner folds */
+
+.envelope-back::before,
+.envelope-back::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.35;
+}
+
+.envelope-back::before {
+  background: linear-gradient(
+    135deg,
+    transparent 48%,
+    rgba(0,0,0,0.08) 49%,
+    transparent 50%
+  );
+}
+
+.envelope-back::after {
+  background: linear-gradient(
+    -135deg,
+    transparent 48%,
+    rgba(0,0,0,0.08) 49%,
+    transparent 50%
+  );
+}
+
+/* heart seal */
+
+.envelope::after {
+  content: '♥';
+
+  position: absolute;
+  left: 50%;
+  top: 52%;
+
+  transform: translate(-50%, -50%);
+
+  font-size: 18px;
+  color: #c97a7a;
+
+  z-index: 6;
+
+  text-shadow: 0 1px 2px rgba(0,0,0,0.15);
+}
+
+/* flap */
+
+.envelope-flap {
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 62%;
+
+  background:
+    linear-gradient(
+      #ffffff 0%,
+      #ffffff 100%
+    );
+
+  clip-path: polygon(0 0, 50% 100%, 100% 0);
+
+  transform-origin: top center;
+
+  transition:
+  transform 0.55s ease;
+
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+
+  z-index: 5;
+
+  box-shadow:
+    inset 0 2px 4px rgba(255,255,255,0.25),
+    0 2px 8px rgba(0,0,0,0.12);
+}
+
+/* letter */
+
+.letter {
+  position: absolute;
+
+  left: 12%;
+  top: 22%;
+
+  width: 76%;
+  height: 72%;
+
+  background:
+    linear-gradient(
+      180deg,
+      #ffffff 0%,
+      #ffffff 100%
+    );
+
+  border-radius: 8px;
+
+  z-index: 2;
+
+  box-shadow:
+    0 8px 18px rgba(0,0,0,0.14);
+
+  transition: none;
+
+  overflow: hidden;
+}
+
+.letter {
+  transform-origin: bottom center;
+  will-change: transform;
+}
+
+/* fake writing lines */
+
+/* OPEN STATE */
+
+.envelope.open .envelope-flap {
+  transform: rotateX(180deg);
+
+  box-shadow:
+    0 18px 28px rgba(0,0,0,0.2);
+}
+
+.envelope-container:hover {
+  transform: translate(-50%, -50%) scale(1.04);
+}
+
+    /* ========== STAGE 3 — SHRINK TO DOT ========== */
+    .plane-container.shrinking {
+      animation: none !important;
+      transition: transform 0.6s ease-in-out, opacity 0.25s ease 0.35s;
+      transform: translate(-50%, -50%) scale(0.02) !important;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* ========== STAGE 4 — RETRO TV ========== */
+    #tv-stage {
+      position: fixed;
+      inset: 0;
+      z-index: 3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+
+    .tv-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .tv-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      overflow: hidden;
+      opacity: 0;
+      transform: scale(0);
+    }
+
+    .tv-dot.visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .tv-dot.expanding {
+      animation: dot-to-tv 1s cubic-bezier(0.34, 1.15, 0.64, 1) forwards;
+    }
+
+    .tv-dot.shrinking-tv {
+      animation: tv-to-dot 0.75s cubic-bezier(0.55, 0, 0.85, 0.36) forwards;
+    }
+
+    .tv-dot.fade-away {
+      animation: dot-fade-out 0.35s ease forwards;
+    }
+
+    @keyframes dot-to-tv {
+      0% {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        opacity: 1;
+      }
+      100% {
+        width: min(99vw, 1100px);
+        height: min(70vw, 620px);
+        border-radius: 20px;
+        opacity: 1;
+      }
+    }
+
+    @keyframes tv-to-dot {
+      0% {
+        width: min(99vw, 1100px);
+        height: min(70vw, 620px);
+        border-radius: 20px;
+        opacity: 1;
+      }
+      100% {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        opacity: 1;
+      }
+    }
+
+    @keyframes dot-fade-out {
+      to { opacity: 0; transform: scale(0); }
+    }
+body.bg-black-transition::before {
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 20%, rgba(0, 0, 0, 0.05) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 45% at 85% 85%, rgba(0, 0, 0, 0.04) 0%, transparent 50%),
+    #000000;
+
+  transition: background 1.4s ease;
+}
+
+body::before {
+  transition: background 1.4s ease;
+}
+    .crt-tv {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      background: linear-gradient(160deg, #3d3835 0%, #252220 45%, #141210 100%);
+      border-radius: inherit;
+      opacity: 0;
+    }
+
+    .tv-dot.expanding .crt-tv,
+    .tv-dot.shrinking-tv .crt-tv {
+      opacity: 1;
+    }
+
+    .tv-dot.expanding .crt-tv {
+      animation: tv-flicker 0.5s ease 0.55s both;
+    }
+
+    @keyframes tv-flicker {
+      0%, 12%, 28%, 42% { opacity: 0; }
+      6%, 20%, 36%, 100% { opacity: 1; }
+    }
+
+    .crt-screen {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #0a0908;
+      box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.95);
+    }
+
+    .crt-screen::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 0, 0, 0.2) 2px,
+        rgba(0, 0, 0, 0.2) 4px
+      );
+      z-index: 4;
+      pointer-events: none;
+      opacity: 0.4;
+    }
+
+    .crt-screen::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center, transparent 45%, rgba(0, 0, 0, 0.7) 100%);
+      z-index: 5;
+      pointer-events: none;
+    }
+
+    .crt-glow {
+      position: absolute;
+      inset: -15%;
+      background: radial-gradient(ellipse at center, rgba(228, 184, 106, 0.08) 0%, transparent 60%);
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    #tv-video {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: #000;
+      display: block;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    #tv-video.visible { opacity: 1; }
+
+    #tv-static {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      opacity: 1;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+    }
+
+    #tv-static.off { opacity: 0; }
+
+    #tv-static canvas { width: 100%; height: 100%; display: block; }
+
+    .tv-knob {
+      position: absolute;
+      right: 4px;
+      bottom: 22%;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    /* ========== STAGE 5 — BUTTON ========== */
+    #button-stage {
+      position: fixed;
+      inset: 0;
+      z-index: 4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .join-btn {
+      position: relative;
+      padding: 1.15rem 2.6rem;
+      font-family: var(--font-ui);
+      font-size: clamp(0.8rem, 3vw, 0.9rem);
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      background: #273cff;
+      color:white;
+      transform: scale(0);
+      opacity: 0;
+      animation: btn-pop 0.75s cubic-bezier(0.34, 1.45, 0.64, 1) forwards;
+    }
+
+    @keyframes btn-pop {
+      0%   { transform: scale(0); opacity: 0; }
+      65%  { transform: scale(1.06); opacity: 1; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .join-btn:hover {
+      box-shadow:
+        0 0 60px #5464f38e,
+        0 4px 0 #273dffbf,
+        0 16px 48px rgba(0, 0, 0, 0.5);
+      filter: brightness(1.06);
+    }
+
+    .join-btn:active {
+      transform: scale(0.98) translateY(2px);
+    }
+
+    .join-btn span { position: relative; z-index: 1; }
+
+    .envelope-image {
+      z-index: 10;
+      width: 118px;
+      height: 86px;
+    }
+  </style>
+</head>
+<body>
+  <div id="stage-root">
+    <!-- STAGE 1 -->
+    <section id="countdown-stage" aria-label="Countdown">
+      <div class="countdown-wrap">
+        <p class="countdown-title">Until we meet</p>
+        <div class="countdown-grid">
+          <div class="countdown-unit">
+            <span class="time-value" aria-label="Days">
+              <span class="digit" data-digit="d0">0</span><span class="digit" data-digit="d1">0</span>
+            </span>
+            <span class="unit-label">Days</span>
+          </div>
+          <span class="countdown-sep" aria-hidden="true"></span>
+          <div class="countdown-unit">
+            <span class="time-value" aria-label="Hours">
+              <span class="digit" data-digit="h0">0</span><span class="digit" data-digit="h1">0</span>
+            </span>
+            <span class="unit-label">Hrs</span>
+          </div>
+          <span class="countdown-sep" aria-hidden="true"></span>
+          <div class="countdown-unit">
+            <span class="time-value" aria-label="Minutes">
+              <span class="digit" data-digit="m0">0</span><span class="digit" data-digit="m1">0</span>
+            </span>
+            <span class="unit-label">Mins</span>
+          </div>
+          <span class="countdown-sep" aria-hidden="true"></span>
+          <div class="countdown-unit">
+            <span class="time-value" aria-label="Seconds">
+              <span class="digit" data-digit="s0">0</span><span class="digit" data-digit="s1">0</span>
+            </span>
+            <span class="unit-label">Secs</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STAGE 2 & 3 -->
+    <section id="plane-stage" class="hidden" aria-label="Envelope">
+      <div class="plane-container envelope-container" id="plane" role="button" tabindex="0" aria-label="Envelope">
+        <img src="https://tse3.mm.bing.net/th/id/OIP.0QnA3AjND7Hiegzg5m6dxgHaFK?r=0&w=600&h=418&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Envelope" class="envelope-image"/>
+        <div class="envelope" hidden>
+          <div class="envelope-back"hidden></div>
+    
+          <div class="envelope-flap"hidden></div>
+    
+          <div class="letter" hidden></div>
+        </div>
+    
+      </div>
+    </section>
+
+    <!-- STAGE 4 -->
+    <section id="tv-stage" class="hidden" aria-label="Video">
+      <div class="tv-wrapper">
+        <div class="tv-dot" id="tv-dot">
+          <div class="crt-tv">
+            <div class="crt-screen">
+              <div class="crt-glow"></div>
+              <div id="tv-static"><canvas id="static-canvas"></canvas></div>
+              <video id="tv-video" playsinline preload="auto"></video>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STAGE 5 -->
+    <section id="button-stage" class="hidden" aria-label="Join call">
+      <button class="join-btn" id="join-btn" type="button">
+        <span>Join Us Live!</span>
+      </button>
+    </section>
+  </div>
+
+  <script>
+    /* ========== CONFIG ========== */
+    const SHOW_SKIP_BUTTON = true;
+    const params = new URLSearchParams(location.search);
+    const previewParam = params.get('preview');
+    const PREVIEW =
+      previewParam === '1' ||
+      previewParam === 'true' ||
+      location.hash === '#preview' ||
+      location.hash === '#demo';
+
+    const TARGET_ISO = '2026-05-19T17:00:00+05:30';
+    const VIDEO_SRC = 'video.mp4';
+    const MEET_LINK = 'https://meet.google.com/jug-rxzo-wou';
+    const BUTTON_LABEL = 'Join Us Live!';
+
+    const countdownStage = document.getElementById('countdown-stage');
+    const planeStage = document.getElementById('plane-stage');
+    const tvStage = document.getElementById('tv-stage');
+    const buttonStage = document.getElementById('button-stage');
+    const plane = document.getElementById('plane');
+    const tvDot = document.getElementById('tv-dot');
+    const tvVideo = document.getElementById('tv-video');
+    const staticCanvas = document.getElementById('static-canvas');
+    const staticWrap = document.getElementById('tv-static');
+    const joinBtn = document.getElementById('join-btn');
+    const skipDemoBtn = document.getElementById('skip-demo-btn');
+
+    if (!SHOW_SKIP_BUTTON && skipDemoBtn) skipDemoBtn.classList.add('hidden');
+
+    joinBtn.querySelector('span').textContent = BUTTON_LABEL;
+
+    let countdownInterval = null;
+    let staticAnimId = null;
+    let stageComplete = false;
+    let demoStarted = false;
+    let planeLanded = false;
+    let planeClicked = false;
+    let videoEnded = false;
+    let tvActive = false;
+    let planeFlightId = null;
+
+    const targetTime = new Date(TARGET_ISO).getTime();
+
+    function pad(n) { return String(n).padStart(2, '0'); }
+
+    /* ========== STAGE 1 — COUNTDOWN ========== */
+    function startCountdown() {
+      updateCountdown();
+      countdownInterval = setInterval(updateCountdown, 1000);
+    }
+
+    function updateCountdown() {
+      const now = Date.now();
+      let diff = Math.max(0, targetTime - now);
+      const days = Math.floor(diff / 86400000); diff %= 86400000;
+      const hours = Math.floor(diff / 3600000); diff %= 3600000;
+      const minutes = Math.floor(diff / 60000); diff %= 60000;
+      const seconds = Math.floor(diff / 1000);
+
+      setDigit('d', pad(days));
+      setDigit('h', pad(hours));
+      setDigit('m', pad(minutes));
+      setDigit('s', pad(seconds));
+
+      if (targetTime - now <= 0 && !stageComplete) {
+        stageComplete = true;
+        clearInterval(countdownInterval);
+        onCountdownComplete();
+      }
+    }
+
+    function setDigit(prefix, str) {
+      document.querySelector(`[data-digit="${prefix}0"]`).textContent = str[0];
+      document.querySelector(`[data-digit="${prefix}1"]`).textContent = str[1];
+    }
+
+    function onCountdownComplete() {
+      document.querySelectorAll('.digit').forEach((el, i) => {
+        const angle = Math.random() * Math.PI * 2;
+        const dist = 70 + Math.random() * 160;
+        el.style.setProperty('--tx', `${Math.cos(angle) * dist}px`);
+        el.style.setProperty('--ty', `${Math.sin(angle) * dist}px`);
+        el.style.setProperty('--rot', `${(Math.random() - 0.5) * 720}deg`);
+        el.style.setProperty('--scatter-delay', `${i * 80}ms`);
+        el.classList.add('shatter');
+      });
+      setTimeout(() => countdownStage.classList.add('fade-out'), 900);
+      setTimeout(goToPlaneStage, 2200);
+    }
+
+    function goToPlaneStage() {
+      if (demoStarted) return;
+      demoStarted = true;
+      if (countdownInterval) clearInterval(countdownInterval);
+      if (skipDemoBtn) skipDemoBtn.classList.add('hidden');
+      countdownStage.classList.add('hidden');
+      startPlane();
+    }
+
+    function skipToDemo() {
+      if (demoStarted) return;
+      stageComplete = true;
+      if (countdownInterval) clearInterval(countdownInterval);
+      countdownStage.classList.add('fade-out');
+      setTimeout(goToPlaneStage, 400);
+    }
+
+    /* ========== STAGE 2 — PAPER PLANE ========== */
+    function catmullRom(p0, p1, p2, p3, t) {
+      const t2 = t * t;
+      const t3 = t2 * t;
+      return {
+        x: 0.5 * ((2 * p1.x) + (-p0.x + p2.x) * t + (2 * p0.x - 5 * p1.x + 4 * p2.x - p3.x) * t2 + (-p0.x + 3 * p1.x - 3 * p2.x + p3.x) * t3),
+        y: 0.5 * ((2 * p1.y) + (-p0.y + p2.y) * t + (2 * p0.y - 5 * p1.y + 4 * p2.y - p3.y) * t2 + (-p0.y + 3 * p1.y - 3 * p2.y + p3.y) * t3),
+      };
+    }
+
+    function sampleSpline(points, t) {
+      const n = points.length - 1;
+      if (n <= 0) return { ...points[0] };
+      const scaled = t * n;
+      const i = Math.min(Math.floor(scaled), n - 1);
+      const lt = scaled - i;
+      const p0 = points[Math.max(0, i - 1)];
+      const p1 = points[i];
+      const p2 = points[Math.min(points.length - 1, i + 1)];
+      const p3 = points[Math.min(points.length - 1, i + 2)];
+      return catmullRom(p0, p1, p2, p3, lt);
+    }
+
+    function flightEasing(t) {
+      if (t < 0.8) return t;
+      const local = (t - 0.8) / 0.2;
+      return 0.8 + (1 - Math.pow(1 - local, 3)) * 0.2;
+    }
+
+    function randomEntry(w, h) {
+      const edge = Math.floor(Math.random() * 4);
+      if (edge === 0) return { x: w * (0.1 + Math.random() * 0.8), y: -80 };
+      if (edge === 1) return { x: w * (0.1 + Math.random() * 0.8), y: h + 80 };
+      if (edge === 2) return { x: -80, y: h * (0.1 + Math.random() * 0.8) };
+      return { x: w + 80, y: h * (0.1 + Math.random() * 0.8) };
+    }
+
+    function buildFlightPath(w, h) {
+      const zones = [
+        { x: () => w * (0.05 + Math.random() * 0.2), y: () => h * (0.05 + Math.random() * 0.3) },
+        { x: () => w * (0.7 + Math.random() * 0.25), y: () => h * (0.4 + Math.random() * 0.3) },
+        { x: () => w * (0.05 + Math.random() * 0.15), y: () => h * (0.6 + Math.random() * 0.3) },
+        { x: () => w * (0.75 + Math.random() * 0.2), y: () => h * (0.05 + Math.random() * 0.2) },
+      ];
+      for (let i = zones.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [zones[i], zones[j]] = [zones[j], zones[i]];
+      }
+      return [
+        randomEntry(w, h),
+        { x: zones[0].x(), y: zones[0].y() },
+        { x: zones[1].x(), y: zones[1].y() },
+        { x: zones[2].x(), y: zones[2].y() },
+        { x: zones[3].x(), y: zones[3].y() },
+        { x: w * 0.5, y: h * 0.5 },
+      ];
+    }
+
+    function startPlane() {
+      planeLanded = false;
+      planeClicked = false;
+      if (planeFlightId) cancelAnimationFrame(planeFlightId);
+
+      planeStage.classList.remove('hidden');
+      plane.classList.remove('settled', 'shrinking', 'wobble-in', 'flying');
+      plane.classList.add('flying');
+
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      const path = buildFlightPath(w, h);
+      const duration = 4500;
+      const startTime = performance.now();
+
+      function frame(now) {
+        const elapsed = now - startTime;
+        const t = Math.min(elapsed / duration, 1);
+        const eased = flightEasing(t);
+        const dt = 0.012;
+
+        const pos = sampleSpline(path, eased);
+        const prev = sampleSpline(path, Math.max(0, eased - dt));
+        let angle = (Math.atan2(pos.y - prev.y, pos.x - prev.x) * 180) / Math.PI;
+
+        if (t > 0.8) {
+          angle += Math.sin((t - 0.8) * 50) * 5 * ((1 - t) / 0.2);
+        }
+
+        plane.style.left = pos.x + 'px';
+        plane.style.top = pos.y + 'px';
+        plane.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
+
+        if (t < 1) {
+          planeFlightId = requestAnimationFrame(frame);
+        } else {
+          planeFlightId = null;
+          onPlaneLanded();
+        }
+      }
+
+      planeFlightId = requestAnimationFrame(frame);
+    }
+
+    function onPlaneLanded() {
+      if (planeLanded) return;
+      planeLanded = true;
+      plane.classList.remove('flying');
+      plane.classList.add('settled', 'wobble-in');
+      plane.style.left = '50%';
+      plane.style.top = '50%';
+      planeStage.classList.add('ready');
+
+      setTimeout(() => plane.classList.remove('wobble-in'), 650);
+
+      plane.addEventListener('click', onPlaneClick);
+      plane.addEventListener('touchend', (e) => { e.preventDefault(); onPlaneClick(); }, { passive: false });
+      plane.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onPlaneClick(); }
+      });
+    }
+
+    function onPlaneClick() {
+  if (planeClicked || !planeLanded) return;
+
+  planeClicked = true;
+
+  shrinkPlane();
+}
+
+    /* ========== STAGE 3 — SHRINK TO DOT ========== */
+    function shrinkPlane() {
+      if (planeFlightId) cancelAnimationFrame(planeFlightId);
+      plane.classList.remove('settled', 'wobble-in');
+      plane.classList.add('shrinking');
+      setTimeout(showTV, 650);
+    }
+
+    /* ========== STAGE 4 — RETRO TV ========== */
+    function showTV() {
+      planeStage.classList.add('hidden');
+
+      document.body.classList.add('bg-black-transition');
+
+      videoEnded = false;
+      tvActive = true;
+
+      tvStage.classList.remove('hidden');
+      tvDot.className = 'tv-dot';
+      tvVideo.classList.remove('visible');
+      staticWrap.classList.remove('off');
+      tvVideo.pause();
+      tvVideo.currentTime = 0;
+      tvVideo.src = VIDEO_SRC;
+      tvVideo.load();
+
+      requestAnimationFrame(() => {
+        tvDot.classList.add('visible');
+        requestAnimationFrame(() => {
+          tvDot.classList.add('expanding');
+          startTVStatic();
+          setTimeout(resizeStaticCanvas, 400);
+          setTimeout(resizeStaticCanvas, 900);
+        });
+      });
+
+      setTimeout(startVideoPlayback, 1600);
+    }
+
+    function startVideoPlayback() {
+      if (!tvActive) return;
+      staticWrap.classList.add('off');
+      stopTVStatic();
+      tvVideo.classList.add('visible');
+      resizeStaticCanvas();
+
+      const playPromise = tvVideo.play();
+      if (playPromise) {
+        playPromise.catch(() => {
+          tvVideo.muted = true;
+          tvVideo.play().catch(showVideoError);
+        });
+      }
+
+      tvVideo.addEventListener('ended', finishTV, { once: true });
+    }
+
+    function showVideoError() {
+      console.warn('Video could not play — showing TV briefly then continuing.');
+      setTimeout(finishTV, 3000);
+    }
+
+    function finishTV() {
+      if (videoEnded || !tvActive) return;
+      videoEnded = true;
+      tvActive = false;
+
+      tvVideo.classList.remove('visible');
+      tvVideo.pause();
+
+      tvDot.classList.remove('expanding');
+      tvDot.classList.add('shrinking-tv');
+
+      tvDot.addEventListener('animationend', onTVShrinkDone, { once: true });
+    }
+
+    function onTVShrinkDone(e) {
+      if (e.animationName !== 'tv-to-dot') return;
+      tvDot.classList.remove('shrinking-tv');
+      tvDot.classList.add('fade-away');
+      setTimeout(() => {
+        tvStage.classList.add('hidden');
+        tvDot.className = 'tv-dot';
+        showButton();
+      }, 350);
+    }
+
+    function resizeStaticCanvas() {
+      const screen = staticCanvas.closest('.crt-screen');
+      if (!screen) return;
+      const w = screen.clientWidth || 320;
+      const h = screen.clientHeight || 180;
+      staticCanvas.width = w;
+      staticCanvas.height = h;
+    }
+
+    function startTVStatic() {
+      const ctx = staticCanvas.getContext('2d');
+      function draw() {
+        if (!tvActive) return;
+        const w = staticCanvas.width;
+        const h = staticCanvas.height;
+        if (!w || !h) {
+          resizeStaticCanvas();
+          staticAnimId = requestAnimationFrame(draw);
+          return;
+        }
+        const img = ctx.createImageData(w, h);
+        const d = img.data;
+        for (let i = 0; i < d.length; i += 4) {
+          const v = (Math.random() * 255) | 0;
+          d[i] = d[i + 1] = d[i + 2] = v;
+          d[i + 3] = 200;
+        }
+        ctx.putImageData(img, 0, 0);
+        staticAnimId = requestAnimationFrame(draw);
+      }
+      draw();
+    }
+
+    function stopTVStatic() {
+      if (staticAnimId) cancelAnimationFrame(staticAnimId);
+      staticAnimId = null;
+    }
+
+    /* ========== STAGE 5 — BUTTON ========== */
+    function showButton() {
+      buttonStage.classList.remove('hidden');
+      joinBtn.addEventListener('click', () => {
+        window.open(MEET_LINK, '_blank', 'noopener,noreferrer');
+      }, { once: true });
+    }
+
+    if (skipDemoBtn) skipDemoBtn.addEventListener('click', skipToDemo);
+
+    if (PREVIEW) skipToDemo();
+    else startCountdown();
+  </script>
+</body>
+</html>
