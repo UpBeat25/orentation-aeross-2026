@@ -103,7 +103,7 @@
   font-weight: 400;
   font-size: clamp(1.2rem, 3vw, 1.55rem);
 
-  color: rgba(0, 0, 0, 0.849);
+  color: rgba(255, 255, 255, 0.849);
 
   margin-bottom: clamp(1.4rem, 4vw, 2.2rem);
 
@@ -470,11 +470,11 @@
     }
 
     .tv-dot.expanding {
-      animation: dot-to-tv 1s cubic-bezier(0.34, 1.15, 0.64, 1) forwards;
+      animation: dot-to-tv 1.5s cubic-bezier(0.34, 1.15, 0.64, 1) forwards;
     }
 
     .tv-dot.shrinking-tv {
-      animation: tv-to-dot 0.75s cubic-bezier(0.55, 0, 0.85, 0.36) forwards;
+      animation: tv-to-dot 1s cubic-bezier(0.55, 0, 0.85, 0.36) forwards;
     }
 
     .tv-dot.fade-away {
@@ -647,8 +647,8 @@ body::before {
       border: none;
       border-radius: 4px;
       cursor: pointer;
-      background: #273cff;
-      color:white;
+      background: #ffffff;
+      color:#273cff;
       transform: scale(0);
       opacity: 0;
       animation: btn-pop 0.75s cubic-bezier(0.34, 1.45, 0.64, 1) forwards;
@@ -935,6 +935,11 @@ body::before {
       const w = window.innerWidth;
       const h = window.innerHeight;
       const path = buildFlightPath(w, h);
+
+      /* PRESET INITIAL POSITION */
+      plane.style.left = path[0].x + 'px';
+      plane.style.top = path[0].y + 'px';
+      plane.style.transform = 'translate(-50%, -50%) rotate(0deg)';
       const duration = 4500;
       const startTime = performance.now();
 
@@ -1076,6 +1081,7 @@ body::before {
       setTimeout(() => {
         tvStage.classList.add('hidden');
         tvDot.className = 'tv-dot';
+        document.body.classList.remove('bg-black-transition');
         showButton();
       }, 350);
     }
